@@ -53,7 +53,7 @@
               <p class="info">
                 Back to
                 <NuxtLink
-                  to="/authentication/sign-in"
+                  to="/Authentication/SignIn"
                   class="fw-semibold text-primary"
                 >
                   Sign In

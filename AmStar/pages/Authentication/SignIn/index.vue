@@ -38,7 +38,7 @@
               </div>
               <div class="forgot-password">
                 <NuxtLink
-                  to="/Authentication/forgot-password"
+                  to="/Authentication/ForgotPassword" 
                   class="text-primary fw-semibold"
                 >
                   Forgot Password?
