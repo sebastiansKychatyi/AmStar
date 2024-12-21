@@ -19,6 +19,7 @@
     "@vueup/vue-quill": "^1.2.0",
     "apexcharts": "^3.54.1",
     "exceljs": "^4.4.0",
+    "form-wizard-vue3": "^1.1.0",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.3",
     "nuxt": "^3.14.1592",
@@ -32,6 +33,7 @@
     "vue-router": "^4.3.2",
     "vue3-apexcharts": "^1.7.0",
     "vue3-carousel-nuxt": "^1.1.1",
+    "vue3-form-wizard": "^0.2.4",
     "vuetify": "^3.7.6"
   },
   "devDependencies": {
