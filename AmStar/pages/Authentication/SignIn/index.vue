@@ -14,9 +14,6 @@
             </div>
             <div class="title">
               <h1 class="fw-semibold">Welcome back to AmStar!</h1>
-              <p class="fw-medium">
-                Sign In with social account or enter your details
-              </p>
             </div>
             <div
               class="with-socials d-flex align-items-center justify-content-between"

@@ -23,15 +23,8 @@
             <div
               class="with-socials d-flex align-items-center justify-content-between"
             >
-
             </div>
             <form>
-              <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                  Full Name
-                </v-label>
-                <v-text-field label="Enter your full name"></v-text-field>
-              </div>
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Email Address
@@ -42,12 +35,20 @@
                 <v-label class="d-block fw-medium text-black">
                   Password
                 </v-label>
-                <v-text-field label="Type password"></v-text-field>
+                <v-text-field label="Type password"></v-text-field>  
               </div>
-              <button type="button">
-                <i class="material-symbols-outlined"> person_4 </i>
-                Sign Up
-              </button>
+              <div class="trezo-form-group">
+                <v-label class="d-block fw-medium text-black">
+                Confirm password
+                </v-label>
+                <v-text-field label="Type password"></v-text-field>  
+              </div>
+              <NuxtLink to="/Authentication/form_wizard">
+                <button type="button">
+                  <i class="material-symbols-outlined"> person_4 </i>
+                  Sign Up
+                </button>
+              </NuxtLink>
               <p class="info">
                 By confirming your email, you agree to our
                 <a class="fw-medium" href="#">Terms of Service</a> and that you

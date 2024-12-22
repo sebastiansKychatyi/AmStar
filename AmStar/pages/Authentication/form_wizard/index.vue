@@ -1,102 +1,209 @@
 <script lang="ts">
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap"; 
 import "form-wizard-vue3/dist/form-wizard-vue3.css";
 import Wizard from "form-wizard-vue3";
-import * as prism from './formwizard.js';
-
-
+import * as prism from "./formwizard.js";
 
 export default {
-    components: {
-        Wizard, 
+components: {
+    Wizard,
+},
+data() {
+    return {
+        prism,
+        currentTabIndex: 0,
+        bio: "",
+        imageUrl: null,
+        placeholderImage: "/assets/images/default-avatar.png", // нема базової фотки!
+    };
+},
+methods: {
+    onChangeCurrentTab(index: number, oldIndex: number) {
+        this.currentTabIndex = index;
     },
-    data() {
-        return {
-            prism,
-            currentTabIndex: 0,
+    onTabBeforeChange() {
+        if (this.currentTabIndex === 0) {
+        }
+    },
+    wizardCompleted() {},
+    onSubmit() {},
+    onFileChange(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+            this.imageUrl = e.target.result;
         };
-    },
-    methods: {
-        onChangeCurrentTab(index: number, oldIndex: number) {
-            this.currentTabIndex = index;
-        },
-        onTabBeforeChange() {
-            if (this.currentTabIndex === 0) {
+        reader.readAsDataURL(file);
             }
         },
-        wizardCompleted() {
-        },
-        onSubmit() { }
     },
 };
 </script>
 
 <template>
-    <Pageheader heading="form-wizard" :maintitle='["Forms", "form-wizard"]' />
+<div class="wizard-container">
+    <Pageheader heading="Form Wizard" :maintitle='["Forms", "form-wizard"]' />
 
-    <!-- Start:: row-1 -->
-    <div class="row">
-        <div class="col">
-            <showcodeCard :code="prism.formWizardExamples" title="Form Wizard Examples">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+        <Wizard
+            :custom-tabs="[
+            { title: 'Registration' },
+            { title: 'Details' },
+            { title: 'Confirmation' },
+            ]"
+            :beforeChange="onTabBeforeChange"
+            @change="onChangeCurrentTab"
+            @complete:wizard="wizardCompleted"
+            @submit.prevent="onSubmit"
+        >
+        <!-- Step 1 -->
+        <div class="step-content" v-if="currentTabIndex === 0">
+            <div class="form-group">
+                <label>First Name</label>
+                <input class="form-control" type="text" placeholder="Taras" required />
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input class="form-control" type="text" placeholder="Shevchenko" required />
+            </div>
+            <div class="form-group">
+                <label>Birth Date</label>
+                <input class="form-control" type="date" required />
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input class="form-control" type="number" placeholder="+380444618061" required />
+            </div>
+            <div class="image-upload">
+            <div
+                class="image-preview"
+                :style="{ backgroundImage: `url(${imageUrl || placeholderImage})` }"
+            >
+                <label for="file-input" class="upload-icon">
+                    <i class="material-icons">file_upload</i>
+                </label>
+            </div>
+                <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
+            </div>
+        </div>
 
-                <Wizard :custom-tabs="[
-                    {
+            <!-- Step 2 -->
+        <div class="step-content" v-if="currentTabIndex === 1">
+            <div class="form-group">
+                <label>Enter Your Position</label>
+                <input class="form-control" type="text" placeholder="Right Wing" required />
+            </div>
+            <div class="bio-area">
+                <label for="bio" class="bio-label">Tell us about yourself</label>
+            <textarea
+                id="bio"
+                class="bio-textarea form-control"
+                placeholder="Share something about yourself..."
+                v-model="bio"
+                rows="5"
+                maxlength="500"
+            ></textarea>
+                <p class="bio-hint">Maximum 500 characters.</p>
+            </div>
+            <div class="form-group">
+                <label>Social media</label>
+                <input class="form-control" type="link" placeholder="https://www.instagram.com/cristiano/" required />
+            </div>
+            <div class="form-group">
+                <label>Social media</label>
+                <input class="form-control" type="link" placeholder="https://www.facebook.com/Cristiano/" required />
+            </div>
+            <div class="form-group">
+                <label>Social media</label>
+                <input class="form-control" type="link" placeholder="https://x.com/Cristiano/" required />
+            </div>
+            </div>
 
-                        title: 'Registration',
-                    },
-                    {
-
-                        title: 'Email',
-                    },
-                    {
-
-                        title: 'Birth Date',
-                    },
-                ]" :beforeChange="onTabBeforeChange" @change="onChangeCurrentTab" @complete:wizard="wizardCompleted"
-                    @submit.prevent="onSubmit">
-                    <div class="col-xs-12" v-if="currentTabIndex === 0">
-
-                    </div>
-                    <div class="col-xs-12 text-start" v-if="currentTabIndex === 0">
-                        <div class="col-md-12">
-                            <div class="form-group mb-3">
-                                <label class="control-label fw-semibold mb-2">Email</label>
-                                <input class="form-control" type="text" placeholder="name@example.com" required="true" />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label fw-semibold mb-2">Password</label>
-                                <input class="form-control" type="password" placeholder="Password" required="true" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 text-start" v-if="currentTabIndex === 1">
-                        <div class="col-md-12">
-                            <div class="form-group mb-3">
-                                <label class="control-label fw-semibold mb-2">Email</label>
-                                <input class="form-control" type="text" placeholder="name@example.com" required="true" />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label fw-semibold mb-2">Password</label>
-                                <input class="form-control" type="password" placeholder="Password" required="true" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 text-start" v-if="currentTabIndex === 2">
-                        <div class="col-md-12">
-                            <div class="form-group mb-3">
-                                <label class="control-label fw-semibold mb-2">Birth date</label>
-                                <input class="form-control" type="date" required="true" />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label fw-semibold mb-2">Have Passport</label>
-                                <input class="form-control" type="text" placeholder="yes/No" required="true" />
-                            </div>
-                        </div>
-                    </div>
-                </Wizard>
-            </showcodeCard>
+        <!-- Step 3 -->
+        <div class="step-content" v-if="currentTabIndex === 2">
+            <div class="form-group">
+                <label>Have Passport</label>
+                <input class="form-control" type="text" placeholder="Yes/No" required />
+            </div>
+            </div>
+            </Wizard>
         </div>
     </div>
+</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Container adjustments */
+.wizard-container {
+    padding: 20px;
+}
 
+/* Image Upload Styles */
+.image-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    cursor: pointer;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+}
+
+.upload-icon {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.upload-icon i {
+    font-size: 24px;
+}
+
+
+@media (max-width: 767px) {
+.wizard-container {
+    padding: 10px;
+}
+.image-upload {
+    width: 100px;
+    height: 100px;
+}
+.upload-icon i {
+    font-size: 20px;
+}
+}
+
+
+.wizard-container .wizard-tabs {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-bottom: 20px; 
+}
+
+.wizard-container .wizard-tabs li {
+    margin: 0 10px; 
+}
+
+</style>
