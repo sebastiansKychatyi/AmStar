@@ -50,9 +50,10 @@ methods: {
         <div class="col-lg-6">
         <Wizard
             :custom-tabs="[
-            { title: 'Registration' },
+            { title: 'Registration Team' },
             { title: 'Details' },
             { title: 'Confirmation' },
+            { title: 'confrims' },
             ]"
             :beforeChange="onTabBeforeChange"
             @change="onChangeCurrentTab"
@@ -62,23 +63,32 @@ methods: {
         <!-- Step 1 -->
         <div class="step-content" v-if="currentTabIndex === 0">
             <div class="form-group">
-                <p class='up-space'>Create Player</p>
-                <label>First Name</label>
-                <input class="form-control" type="text" placeholder="Taras" required />
+                <p class='up-space'>Create Team</p>
+                <label>Team name</label>
+                <input class="form-control" type="text" placeholder="FK Barcelona" required />
+            </div>
+            <div class="bio-area">
+                <label for="bio" class="bio-label">Tell us about your team</label>
+            <textarea
+                id="bio"
+                class="bio-textarea form-control"
+                placeholder="Share something about your team..."
+                v-model="bio"
+                rows="5"
+                maxlength="500"
+            ></textarea>
+            <p class="bio-hint">Maximum 500 characters.</p>
             </div>
             <div class="form-group">
-                <label>Last Name</label>
-                <input class="form-control" type="text" placeholder="Shevchenko" required />
-            </div>
-            <div class="form-group">
-                <label>Birth Date</label>
+                <label>Date of team creation</label>
                 <input class="form-control" type="date" required />
             </div>
             <div class="form-group">
-                <label>Phone Number</label>
-                <input class="form-control" type="number" placeholder="+380444618061" required />
+                <label>street?</label>
+                <input class="form-control" type="number" placeholder="Village Kamyanitsa, Uzanska 107" required />
             </div>
             <div class="image-upload">
+                <h1>team logo</h1>
             <div
                 class="image-preview"
                 :style="{ backgroundImage: `url(${imageUrl || placeholderImage})` }"
@@ -94,21 +104,42 @@ methods: {
             <!-- Step 2 -->
         <div class="step-content" v-if="currentTabIndex === 1">
             <div class="form-group">
-                <label>Enter Your Position</label>
-                <input class="form-control" type="text" placeholder="Right Wing" required />
+                <label>Do you accept new members? (You can change your choice at any time)</label>
+                <select class="form-control" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
             </div>
-            <div class="bio-area">
-                <label for="bio" class="bio-label">Tell us about yourself</label>
-            <textarea
-                id="bio"
-                class="bio-textarea form-control"
-                placeholder="Share something about yourself..."
-                v-model="bio"
-                rows="5"
-                maxlength="500"
-            ></textarea>
-                <p class="bio-hint">Maximum 500 characters.</p>
+            <div class="form-group">
+                <label>Do you consider yourselves a professional team?</label>
+                <select class="form-control" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label>Do you have an official representative?</label>
+                <select class="form-control" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>
+                    Are you actively seeking sponsors?</label>
+                <select class="form-control" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Social media</label>
+                <input class="form-control" type="link" placeholder="https://x.com/Cristiano/" required />
+            </div>
+            </div>
+
+        <!-- Step 3 -->
+        <div class="step-content" v-if="currentTabIndex === 2">
             <div class="form-group">
                 <label>Social media</label>
                 <input class="form-control" type="link" placeholder="https://www.instagram.com/cristiano/" required />
@@ -121,18 +152,12 @@ methods: {
                 <label>Social media</label>
                 <input class="form-control" type="link" placeholder="https://x.com/Cristiano/" required />
             </div>
-            </div>
-
-        <!-- Step 3 -->
-        <div class="step-content" v-if="currentTabIndex === 2">
-            <div class="form-group">
-                <label>Have Passport</label>
-                <input class="form-control" type="text" placeholder="Yes/No" required />
-            </div>
             <div class="form-group">
                 <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
-                <input type="checkbox" id="Privacy Policy" name="Privacy Policy">
+                <input type="checkbox" id="Privacy Policy" name="sPrivacy Policy">
             </div>
+            </div>
+            <div class="step-content" v-if="currentTabIndex === 2">
             </div>
             </Wizard>
         </div>
@@ -185,12 +210,6 @@ methods: {
     font-size: 24px;
 }
 
-input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--primaryColor);
-}
-
 
 @media (max-width: 767px) {
 .wizard-container {
@@ -203,6 +222,11 @@ input[type="checkbox"] {
 .upload-icon i {
     font-size: 20px;
 }
+}
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--primaryColor);
 }
 
 
