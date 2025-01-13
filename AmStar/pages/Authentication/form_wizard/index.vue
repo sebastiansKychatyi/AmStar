@@ -14,8 +14,6 @@ data() {
         prism,
         currentTabIndex: 0,
         bio: "",
-        imageUrl: null,
-        placeholderImage: "/assets/images/default-avatar.png", // нема базової фотки!
     };
 },
 methods: {
@@ -44,8 +42,6 @@ methods: {
 
 <template>
 <div class="wizard-container">
-    <Pageheader heading="Form Wizard" :maintitle='["Forms", "form-wizard"]' />
-
     <div class="row justify-content-center">
         <div class="col-lg-6">
         <Wizard
@@ -79,16 +75,11 @@ methods: {
                 <input class="form-control" type="number" placeholder="+380444618061" required />
             </div>
             <div class="image-upload">
-            <div
-                class="image-preview"
-                :style="{ backgroundImage: `url(${imageUrl || placeholderImage})` }"
-            >
                 <label for="file-input" class="upload-icon">
                     <i class="material-icons">file_upload</i>
                 </label>
             </div>
                 <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
-            </div>
         </div>
 
             <!-- Step 2 -->
