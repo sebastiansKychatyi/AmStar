@@ -20,35 +20,44 @@
             <div class="title">
               <h1 class="fw-semibold">Sign up to AmStar</h1>
             </div>
-            <div
-              class="with-socials d-flex align-items-center justify-content-between"
-            >
-            </div>
-            <form>
+            <form @submit.prevent="submitForm">
+              
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                  Email Address
-                </v-label>
-                <v-text-field label="example@AmStar.com"></v-text-field>
+                <Input
+                  id="email"
+                  type="email"
+                  label="Email Address"
+                  v-model="email"
+                  placeholder="example@AmStar.com"
+                  :errorMessage="isSubmitted && !validateEmail(email) ? 'Invalid email address' : ''"
+                />
               </div>
+              
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                  Password
-                </v-label>
-                <v-text-field label="Type password"></v-text-field>  
+                <Input
+                  id="password"
+                  type="password"
+                  label="Password"
+                  v-model="password"
+                  placeholder="Type password"
+                  :errorMessage="isSubmitted && !validatePassword(password) ? 'Password must be at least 6 characters' : ''"
+                />
               </div>
+              
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                Confirm password
-                </v-label>
-                <v-text-field label="Type password"></v-text-field>  
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  label="Confirm Password"
+                  v-model="confirmPassword"
+                  placeholder="Type password"
+                  :errorMessage="isSubmitted && password !== confirmPassword ? 'Passwords do not match' : ''"
+                />
               </div>
-              <NuxtLink to="/Authentication/form_wizard">
-                <button type="button">
-                  <i class="material-symbols-outlined"> person_4 </i>
-                  Sign Up
-                </button>
-              </NuxtLink>
+              <button type="submit">
+                <i class="material-symbols-outlined"> person_4 </i>
+                Sign Up
+              </button>
               <p class="info">
                 By confirming your email, you agree to our
                 <a class="fw-medium" href="#">Terms of Service</a> and that you
@@ -73,10 +82,51 @@
 </template>
 
 <script>
+import Input from "~/components/Input.vue";
+
 export default {
   name: "SignUp",
+  components: {
+    Input,
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      isSubmitted: false, 
+    };
+  },
+  methods: {
+    validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    validatePassword(password) {
+      return password.length >= 6;
+    },
+    submitForm() {
+      this.isSubmitted = true; 
+
+      
+      if (!this.validateEmail(this.email)) {
+        alert("Please enter a valid email.");
+        return;
+      }
+      if (!this.validatePassword(this.password)) {
+        alert("Password must be at least 6 characters long.");
+        return;
+      }
+      if (this.password !== this.confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+      this.$router.push("/Authentication/form_wizard");
+    },
+  },
 };
 </script>
+
 
 <style lang="scss" scoped>
 .sign-up-area {
