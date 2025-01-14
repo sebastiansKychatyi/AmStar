@@ -21,7 +21,6 @@
               <h1 class="fw-semibold">Sign up to AmStar</h1>
             </div>
             <form @submit.prevent="submitForm">
-              
               <div class="trezo-form-group">
                 <Input
                   id="email"
@@ -88,34 +87,30 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      isSubmitted: false, 
+      isSubmitted: false,
     };
   },
   methods: {
     validateEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
+      return /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email);
     },
     validatePassword(password) {
       return password.length >= 6;
     },
     submitForm() {
-      this.isSubmitted = true; 
-
-      
-      if (!this.validateEmail(this.email)) {
-        alert("Please enter a valid email.");
-        return;
-      }
-      if (!this.validatePassword(this.password)) {
-        alert("Password must be at least 6 characters long.");
-        return;
-      }
-      if (this.password !== this.confirmPassword) {
-        alert("Passwords do not match.");
-        return;
-      }
-      this.$router.push("/Authentication/form_wizard");
+  this.isSubmitted = true;
+  if (
+    this.validateEmail(this.email) &&
+    this.validatePassword(this.password) &&
+    this.password === this.confirmPassword
+  ) {
+    // Если форма прошла валидацию, выполняем редирект
+    console.log("Form Submitted");
+        
+    this.$router.push("/Authentication/form_wizard");
+  } else {
+    console.log("Form Validation Failed");
+    }
     },
   },
 };

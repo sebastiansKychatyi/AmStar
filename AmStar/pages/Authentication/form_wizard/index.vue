@@ -7,98 +7,97 @@ import TextArea from "~/components/TextArea.vue";
 import * as prism from "./formwizard.js";
 
 export default {
-components: {
+  components: {
     Wizard,
     TextArea, 
-},
-data() {
+  },
+  data() {
     return {
-        prism,
-        currentTabIndex: 0,
-        bio: "",
-        bioError: "", 
+      prism,
+      currentTabIndex: 0,
+      bio: "",
+      bioError: "", 
     };
-},
-methods: {
+  },
+  methods: {
     onChangeCurrentTab(index: number, oldIndex: number) {
-        this.currentTabIndex = index;
+      this.currentTabIndex = index;
     },
     onTabBeforeChange() {
-        if (this.currentTabIndex === 0) {
-        }
+      if (this.currentTabIndex === 0) {
+      }
     },
     wizardCompleted() {},
     onSubmit() {
-    if (!this.bio) {
+      if (!this.bio) {
         this.bioError = "Bio cannot be empty!";
-        } else {
+      } else {
         this.bioError = "";
-        }
+      }
     },
     onFileChange(event: any) {
-        const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e: any) => {
-                    this.imageUrl = e.target.result;
-                };
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imageUrl = e.target.result;
+        };
         reader.readAsDataURL(file);
-        }
+      }
     },
-},
+  },
 };
 </script>
 
 <template>
-<div class="wizard-container">
+  <div class="wizard-container">
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <Wizard
-            :custom-tabs="[
-                { title: 'Registration' },
-                { title: 'Details' },
-                { title: 'Confirmation' }
-            ]"
-            :beforeChange="onTabBeforeChange"
-            @change="onChangeCurrentTab"
-            @complete:wizard="wizardCompleted"
-            @submit.prevent="onSubmit"
+      <div class="col-lg-6">
+        <Wizard
+          :custom-tabs="[
+            { title: 'Registration' },
+            { title: 'Details' },
+            { title: 'Confirmation' }
+          ]"
+          :beforeChange="onTabBeforeChange"
+          @change="onChangeCurrentTab"
+          @complete:wizard="wizardCompleted"
+          @submit.prevent="onSubmit"
         >
-
-        <div class="step-content" v-if="currentTabIndex === 0">
+          <div class="step-content" v-if="currentTabIndex === 0">
             <div class="form-group">
-                <p class="up-space">Create Player</p>
-                <label>First Name</label>
-                <input class="form-control" type="text" placeholder="Taras" required />
+              <p class="up-space">Create Player</p>
+              <label>First Name</label>
+              <input class="form-control" type="text" placeholder="Taras" required />
             </div>
             <div class="form-group">
-                <label>Last Name</label>
-                <input class="form-control" type="text" placeholder="Shevchenko" required />
+              <label>Last Name</label>
+              <input class="form-control" type="text" placeholder="Shevchenko" required />
             </div>
             <div class="form-group">
-                <label>Birth Date</label>
-                <input class="form-control" type="date" required />
+              <label>Birth Date</label>
+              <input class="form-control" type="date" required />
             </div>
             <div class="form-group">
-                <label>Phone Number</label>
-                <input class="form-control" type="tel" placeholder="+380444618061" required />
+              <label>Phone Number</label>
+              <input class="form-control" type="tel" placeholder="+380444618061" required />
             </div>
             <div class="image-upload">
-                <label for="file-input" class="upload-icon">
-                    <i class="material-icons">file_upload</i>
-                </label>
+              <label for="file-input" class="upload-icon">
+                <i class="material-icons">file_upload</i>
+              </label>
             </div>
             <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
-        </div>
+          </div>
 
-        <div class="step-content" v-if="currentTabIndex === 1">
+          <div class="step-content" v-if="currentTabIndex === 1">
             <div class="form-group">
-                <label>Enter Your Position</label>
-                <input class="form-control" type="text" placeholder="Right Wing" required />
+              <label>Enter Your Position</label>
+              <input class="form-control" type="text" placeholder="Right Wing" required />
             </div>
             <div class="bio-area">
-                <label for="bio" class="bio-label">Tell us about yourself</label>
-            <TextArea
+              <label for="bio" class="bio-label">Tell us about yourself</label>
+              <TextArea
                 id="bio"
                 label=""
                 v-model="bio"
@@ -106,30 +105,29 @@ methods: {
                 :rows="5"
                 maxlength="500"
                 :errorMessage="bioError"
-            />
-                <p class="bio-hint">Maximum 500 characters.</p>
+              />
+              <p class="bio-hint">Maximum 500 characters.</p>
             </div>
             <div class="form-group">
-                <label>Social media</label>
-                <input class="form-control" type="url" placeholder="https://www.instagram.com/cristiano/" required />
+              <label>Social media</label>
+              <input class="form-control" type="url" placeholder="https://www.instagram.com/cristiano/" required />
             </div>
-        </div>
+          </div>
 
-
-        <div class="step-content" v-if="currentTabIndex === 2">
+          <div class="step-content" v-if="currentTabIndex === 2">
             <div class="form-group">
-                <label>Have Passport</label>
-                <input class="form-control" type="text" placeholder="Yes/No" required />
+              <label>Have Passport</label>
+              <input class="form-control" type="text" placeholder="Yes/No" required />
             </div>
             <div class="form-group">
-                <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
-                <input type="checkbox" id="Privacy Policy" name="Privacy Policy" />
+              <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
+              <input type="checkbox" id="Privacy Policy" name="Privacy Policy" />
             </div>
-        </div>
+          </div>
         </Wizard>
+      </div>
     </div>
-    </div>
-</div>
+  </div>
 </template>
 
 <style scoped>
@@ -197,7 +195,7 @@ input[type="checkbox"] {
 }
 .upload-icon i {
     font-size: 20px;
-}
+    }
 }
 
 .wizard-container .wizard-tabs {
