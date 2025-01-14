@@ -6,7 +6,6 @@
     </div>
 
     <!-- Основной контент -->
-    <Nuxt />
     <div :class="containerClass">
       <NuxtPage />
     </div>

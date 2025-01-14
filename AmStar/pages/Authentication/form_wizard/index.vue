@@ -3,17 +3,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap"; 
 import "form-wizard-vue3/dist/form-wizard-vue3.css";
 import Wizard from "form-wizard-vue3";
+import TextArea from "~/components/TextArea.vue"; 
 import * as prism from "./formwizard.js";
 
 export default {
 components: {
     Wizard,
+    TextArea, 
 },
 data() {
     return {
         prism,
         currentTabIndex: 0,
         bio: "",
+        bioError: "", 
     };
 },
 methods: {
@@ -25,18 +28,24 @@ methods: {
         }
     },
     wizardCompleted() {},
-    onSubmit() {},
+    onSubmit() {
+    if (!this.bio) {
+        this.bioError = "Bio cannot be empty!";
+        } else {
+        this.bioError = "";
+        }
+    },
     onFileChange(event: any) {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-            this.imageUrl = e.target.result;
-        };
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e: any) => {
+                    this.imageUrl = e.target.result;
+                };
         reader.readAsDataURL(file);
-            }
-        },
+        }
     },
+},
 };
 </script>
 
@@ -44,21 +53,21 @@ methods: {
 <div class="wizard-container">
     <div class="row justify-content-center">
         <div class="col-lg-6">
-        <Wizard
+            <Wizard
             :custom-tabs="[
-            { title: 'Registration' },
-            { title: 'Details' },
-            { title: 'Confirmation' },
+                { title: 'Registration' },
+                { title: 'Details' },
+                { title: 'Confirmation' }
             ]"
             :beforeChange="onTabBeforeChange"
             @change="onChangeCurrentTab"
             @complete:wizard="wizardCompleted"
             @submit.prevent="onSubmit"
         >
-        <!-- Step 1 -->
+
         <div class="step-content" v-if="currentTabIndex === 0">
             <div class="form-group">
-                <p class='up-space'>Create Player</p>
+                <p class="up-space">Create Player</p>
                 <label>First Name</label>
                 <input class="form-control" type="text" placeholder="Taras" required />
             </div>
@@ -72,17 +81,16 @@ methods: {
             </div>
             <div class="form-group">
                 <label>Phone Number</label>
-                <input class="form-control" type="number" placeholder="+380444618061" required />
+                <input class="form-control" type="tel" placeholder="+380444618061" required />
             </div>
             <div class="image-upload">
                 <label for="file-input" class="upload-icon">
                     <i class="material-icons">file_upload</i>
                 </label>
             </div>
-                <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
+            <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
         </div>
 
-            <!-- Step 2 -->
         <div class="step-content" v-if="currentTabIndex === 1">
             <div class="form-group">
                 <label>Enter Your Position</label>
@@ -90,31 +98,24 @@ methods: {
             </div>
             <div class="bio-area">
                 <label for="bio" class="bio-label">Tell us about yourself</label>
-            <textarea
+            <TextArea
                 id="bio"
-                class="bio-textarea form-control"
-                placeholder="Share something about yourself..."
+                label="Tell us about yourself"
                 v-model="bio"
-                rows="5"
+                placeholder="Share something about yourself..."
+                :rows="5"
                 maxlength="500"
-            ></textarea>
+                :errorMessage="bioError"
+            />
                 <p class="bio-hint">Maximum 500 characters.</p>
             </div>
             <div class="form-group">
                 <label>Social media</label>
-                <input class="form-control" type="link" placeholder="https://www.instagram.com/cristiano/" required />
+                <input class="form-control" type="url" placeholder="https://www.instagram.com/cristiano/" required />
             </div>
-            <div class="form-group">
-                <label>Social media</label>
-                <input class="form-control" type="link" placeholder="https://www.facebook.com/Cristiano/" required />
-            </div>
-            <div class="form-group">
-                <label>Social media</label>
-                <input class="form-control" type="link" placeholder="https://x.com/Cristiano/" required />
-            </div>
-            </div>
+        </div>
 
-        <!-- Step 3 -->
+
         <div class="step-content" v-if="currentTabIndex === 2">
             <div class="form-group">
                 <label>Have Passport</label>
@@ -122,22 +123,26 @@ methods: {
             </div>
             <div class="form-group">
                 <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
-                <input type="checkbox" id="Privacy Policy" name="Privacy Policy">
+                <input type="checkbox" id="Privacy Policy" name="Privacy Policy" />
             </div>
-            </div>
-            </Wizard>
         </div>
+
+        <div class="wizard-navigation">
+            <button v-if="currentTabIndex > 0" @click="currentTabIndex--" class="btn btn-secondary">Previous</button>
+            <button v-if="currentTabIndex < 2" @click="currentTabIndex++" class="btn btn-primary">Next</button>
+            <button v-if="currentTabIndex === 2" @click="onSubmit" class="btn btn-success">Submit</button>
+        </div>
+        </Wizard>
+    </div>
     </div>
 </div>
 </template>
 
 <style scoped>
-/* Container adjustments */
 .wizard-container {
     padding: 20px;
 }
 
-/* Image Upload Styles */
 .image-upload {
     display: flex;
     flex-direction: column;
@@ -182,6 +187,11 @@ input[type="checkbox"] {
     accent-color: var(--primaryColor);
 }
 
+.wizard-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
 
 @media (max-width: 767px) {
 .wizard-container {
@@ -195,7 +205,6 @@ input[type="checkbox"] {
     font-size: 20px;
 }
 }
-
 
 .wizard-container .wizard-tabs {
     display: flex;
@@ -211,5 +220,4 @@ input[type="checkbox"] {
 .up-space {
     margin-top: 5px; 
 }
-
 </style>

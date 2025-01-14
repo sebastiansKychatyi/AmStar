@@ -43,7 +43,7 @@
                   :errorMessage="isSubmitted && !validatePassword(password) ? 'Password must be at least 6 characters' : ''"
                 />
               </div>
-              
+
               <div class="trezo-form-group">
                 <Input
                   id="confirmPassword"
@@ -58,12 +58,6 @@
                 <i class="material-symbols-outlined"> person_4 </i>
                 Sign Up
               </button>
-              <p class="info">
-                By confirming your email, you agree to our
-                <a class="fw-medium" href="#">Terms of Service</a> and that you
-                have read and understood our
-                <a class="fw-medium" href="#">Privacy Policy</a>.
-              </p>
               <p class="info">
                 Already have an account.
                 <NuxtLink
