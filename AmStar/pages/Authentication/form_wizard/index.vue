@@ -100,7 +100,7 @@ methods: {
                 <label for="bio" class="bio-label">Tell us about yourself</label>
             <TextArea
                 id="bio"
-                label="Tell us about yourself"
+                label=""
                 v-model="bio"
                 placeholder="Share something about yourself..."
                 :rows="5"
@@ -125,12 +125,6 @@ methods: {
                 <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
                 <input type="checkbox" id="Privacy Policy" name="Privacy Policy" />
             </div>
-        </div>
-
-        <div class="wizard-navigation">
-            <button v-if="currentTabIndex > 0" @click="currentTabIndex--" class="btn btn-secondary">Previous</button>
-            <button v-if="currentTabIndex < 2" @click="currentTabIndex++" class="btn btn-primary">Next</button>
-            <button v-if="currentTabIndex === 2" @click="onSubmit" class="btn btn-success">Submit</button>
         </div>
         </Wizard>
     </div>
