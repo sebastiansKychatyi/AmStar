@@ -194,6 +194,14 @@ export default {
     }
   }
 }
+.fw-medium{
+  color: #333;
+  text-decoration: none;
+}
+.fw-semibold{
+  color: #333 !important;
+  text-decoration: none;
+}
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
@@ -419,4 +427,75 @@ export default {
     }
   }
 }
+/* Max width 767px */
+@media only screen and (max-width: 767px) {
+  .sign-in-area {
+    padding: {
+      top: 60px;
+      bottom: 60px;
+    }
+    .trezo-form {
+      max-width: 100%;
+
+      .form-image {
+        display: none; /* Скрываем картинку на мобильных устройствах */
+      }
+
+      .form-content {
+        padding-left: 0;
+
+        .title {
+          margin: {
+            top: 17px;
+            bottom: 15px;
+          }
+          h1 {
+            font-size: 22px;
+          }
+          p {
+            font-size: 13px;
+          }
+        }
+
+        .with-socials {
+          margin-bottom: 20px;
+
+          div {
+            margin: {
+              left: 5px;
+              right: 5px;
+            }
+          }
+
+          button {
+            padding: 8px 15px;
+          }
+        }
+
+        form {
+          .trezo-form-group {
+            .v-label {
+              margin-bottom: 10px;
+            }
+          }
+
+          button {
+            padding: 12px 25px;
+            margin-top: 17px;
+            font-size: 13px;
+            i {
+              font-size: 20px;
+            }
+          }
+
+          .info {
+            margin-top: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
 </style>
