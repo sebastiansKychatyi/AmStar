@@ -1,19 +1,17 @@
 <template>
-    <div>
-        <Navbar />
+    <Navbar />
+    <div id="app">
         <PlayerRatingTable />
-        <NuxtPage />
-        <Footer />
     </div>
+    <Footer />
 </template>
 
 <script>
-import PlayerRatingTable from '~/components/PlayerRatingTable.vue';
-
+import PlayerRatingTable from '@/components/PlayerRatingTable.vue';
+import navbar from '~/components/navbar.vue';
 export default {
-components: {
-    PlayerRatingTable
-}
+    components: {
+        PlayerRatingTable,
+    },
 };
-
 </script>

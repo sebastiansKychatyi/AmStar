@@ -20,43 +20,41 @@
             <div class="title">
               <h1 class="fw-semibold">Sign up to AmStar</h1>
             </div>
-            <form @submit.prevent="submitForm">
+            <div
+              class="with-socials d-flex align-items-center justify-content-between"
+            >
+            </div>
+            <form>
               <div class="trezo-form-group">
-                <Input
-                  id="email"
-                  type="email"
-                  label="Email Address"
-                  v-model="email"
-                  placeholder="example@AmStar.com"
-                  :errorMessage="isSubmitted && !validateEmail(email) ? 'Invalid email address' : ''"
-                />
+                <v-label class="d-block fw-medium text-black">
+                  Email Address
+                </v-label>
+                <v-text-field label="example@AmStar.com"></v-text-field>
               </div>
-              
               <div class="trezo-form-group">
-                <Input
-                  id="password"
-                  type="password"
-                  label="Password"
-                  v-model="password"
-                  placeholder="Type password"
-                  :errorMessage="isSubmitted && !validatePassword(password) ? 'Password must be at least 6 characters' : ''"
-                />
+                <v-label class="d-block fw-medium text-black">
+                  Password
+                </v-label>
+                <v-text-field label="Type password"></v-text-field>  
               </div>
-
               <div class="trezo-form-group">
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  label="Confirm Password"
-                  v-model="confirmPassword"
-                  placeholder="Type password"
-                  :errorMessage="isSubmitted && password !== confirmPassword ? 'Passwords do not match' : ''"
-                />
+                <v-label class="d-block fw-medium text-black">
+                Confirm password
+                </v-label>
+                <v-text-field label="Type password"></v-text-field>  
               </div>
-              <button type="submit">
-                <i class="material-symbols-outlined"> person_4 </i>
-                Sign Up
-              </button>
+              <NuxtLink to="/Authentication/form_wizard">
+                <button type="button">
+                  <i class="material-symbols-outlined"> person_4 </i>
+                  Sign Up
+                </button>
+              </NuxtLink>
+              <p class="info">
+                By confirming your email, you agree to our
+                <a class="fw-medium" href="#">Terms of Service</a> and that you
+                have read and understood our
+                <a class="fw-medium" href="#">Privacy Policy</a>.
+              </p>
               <p class="info">
                 Already have an account.
                 <NuxtLink
@@ -75,47 +73,38 @@
 </template>
 
 <script>
-import Input from "~/components/Input.vue";
+import { useUserStore } from '~/stores/user.js';
 
 export default {
-  name: "SignUp",
-  components: {
-    Input,
-  },
+  name: 'RegisterForm',
   data() {
     return {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      isSubmitted: false,
+      firstName: '',
+      lastName: '',
+      email: '',
     };
   },
   methods: {
-    validateEmail(email) {
-      return /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email);
-    },
-    validatePassword(password) {
-      return password.length >= 6;
+    validateForm() {
+      return this.firstName && this.lastName && this.email;
     },
     submitForm() {
-  this.isSubmitted = true;
-  if (
-    this.validateEmail(this.email) &&
-    this.validatePassword(this.password) &&
-    this.password === this.confirmPassword
-  ) {
-    // Если форма прошла валидацию, выполняем редирект
-    console.log("Form Submitted");
-        
-    this.$router.push("/Authentication/form_wizard");
-  } else {
-    console.log("Form Validation Failed");
-    }
+      if (this.validateForm()) {
+        const userStore = useUserStore();
+        userStore.setUser({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+        });
+
+        this.$router.push('/Authentication/form_wizard'); 
+      } else {
+        alert('Please fill the form correctly.');
+      }
     },
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .sign-up-area {
@@ -206,7 +195,7 @@ export default {
           padding: 12px 25px;
           border-radius: 7px;
           color: var(--whiteColor);
-          background-color: var(--primaryColor);
+          background-color: #333;
           display: flex;
           align-items: center;
           justify-content: center;

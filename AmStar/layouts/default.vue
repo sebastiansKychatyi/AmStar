@@ -1,16 +1,16 @@
 <template>
   <div>
-    <!-- Шапка -->
+    
     <div v-if="shouldShowHeader">
       <Navbar />
     </div>
 
-    <!-- Основной контент -->
+    
     <div :class="containerClass">
       <NuxtPage />
     </div>
 
-    <!-- Подвал -->
+    
     <div v-if="shouldShowFooter">
       <Footer />
     </div>

@@ -173,7 +173,7 @@ methods: {
     background-color: #f0f0f0;
     border-radius: 50%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     margin: 20px auto;
     cursor: pointer;
 }
@@ -209,6 +209,16 @@ methods: {
 .image-upload {
     width: 100px;
     height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    position: relative;
+    overflow: visible;
+    margin: 20px auto;
+    cursor: pointer;
 }
 .upload-icon i {
     font-size: 20px;
@@ -217,7 +227,7 @@ methods: {
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: var(--primaryColor);
+    accent-color: #333;
 }
 
 

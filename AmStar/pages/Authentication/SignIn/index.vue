@@ -166,7 +166,7 @@ export default {
           padding: 12px 25px;
           border-radius: 7px;
           color: var(--whiteColor);
-          background-color: var(--primaryColor);
+          background-color: #333;
           display: flex;
           align-items: center;
           justify-content: center;

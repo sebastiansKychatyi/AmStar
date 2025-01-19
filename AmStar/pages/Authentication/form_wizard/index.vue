@@ -122,6 +122,12 @@ export default {
             <div class="form-group">
               <label for="Privacy Policy" class="fw-medium">By proceeding, I confirm that I have read and agree to the Terms of Service and Privacy Policy.</label>
               <input type="checkbox" id="Privacy Policy" name="Privacy Policy" />
+              <NuxtLink
+              to="/player-rating"
+              class="fw-semibold text-primary"
+            >
+              Sign In
+            </NuxtLink>
             </div>
           </div>
         </Wizard>
@@ -145,7 +151,7 @@ export default {
     background-color: #f0f0f0;
     border-radius: 50%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     margin: 20px auto;
     cursor: pointer;
 }
@@ -192,6 +198,7 @@ input[type="checkbox"] {
 .image-upload {
     width: 100px;
     height: 100px;
+    overflow: visible;
 }
 .upload-icon i {
     font-size: 20px;
@@ -212,4 +219,5 @@ input[type="checkbox"] {
 .up-space {
     margin-top: 5px; 
 }
+
 </style>
