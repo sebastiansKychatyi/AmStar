@@ -25,7 +25,7 @@ export default {
   },
 };
 </script>
-
+pages -> player-rating.vue
 <style scoped>
 .player-rating {
   text-align: center;
