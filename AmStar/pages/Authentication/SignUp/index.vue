@@ -11,58 +11,56 @@
           <div class="form-content">
             <div class="logo">
               <v-img src="~/assets/images/AmStar-Logos2.svg" alt="logo" />
-              <v-img
-                src="/assets/images/AmStar-Logos2.svg"
-                class="d-none"
-                alt="logo"
-              />
+              <v-img src="/assets/images/AmStar-Logos2.svg" class="d-none" alt="logo" />
             </div>
             <div class="title">
               <h1 class="fw-semibold">Sign up to AmStar</h1>
             </div>
-            <div
-              class="with-socials d-flex align-items-center justify-content-between"
-            >
-            </div>
-            <form>
+            <form @submit.prevent="submitForm">
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                  Email Address
-                </v-label>
-                <v-text-field label="example@AmStar.com"></v-text-field>
+                <v-label class="d-block fw-medium text-black">Email Address</v-label>
+                <v-text-field
+                  v-model="email"
+                  label="example@AmStar.com"
+                  :error="emailError"
+                  @blur="validateEmailInput"
+                ></v-text-field>
+                <span v-if="emailError" class="text-danger">{{ emailError }}</span>
               </div>
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                  Password
-                </v-label>
-                <v-text-field label="Type password"></v-text-field>  
+                <v-label class="d-block fw-medium text-black">Password</v-label>
+                <v-text-field
+                  v-model="password"
+                  label="Type password"
+                  type="password"
+                  :error="passwordError"
+                  @blur="validatePassword"
+                ></v-text-field>
+                <span v-if="passwordError" class="text-danger">{{ passwordError }}</span>
               </div>
               <div class="trezo-form-group">
-                <v-label class="d-block fw-medium text-black">
-                Confirm password
-                </v-label>
-                <v-text-field label="Type password"></v-text-field>  
+                <v-label class="d-block fw-medium text-black">Confirm password</v-label>
+                <v-text-field
+                  v-model="confirmPassword"
+                  label="Type password"
+                  type="password"
+                  :error="confirmPasswordError"
+                  @blur="validateConfirmPassword"
+                ></v-text-field>
+                <span v-if="confirmPasswordError" class="text-danger">{{ confirmPasswordError }}</span>
               </div>
-              <NuxtLink to="/Authentication/form_wizard">
-                <button type="button">
-                  <i class="material-symbols-outlined"> person_4 </i>
-                  Sign Up
-                </button>
-              </NuxtLink>
+              <button type="submit">
+                <i class="material-symbols-outlined"> person_4 </i>
+                Sign Up
+              </button>
               <p class="info">
                 By confirming your email, you agree to our
-                <a class="fw-medium" href="#">Terms of Service</a> and that you
-                have read and understood our
+                <a class="fw-medium" href="#">Terms of Service</a> and that you have read and understood our
                 <a class="fw-medium" href="#">Privacy Policy</a>.
               </p>
               <p class="info">
-                Already have an account.
-                <NuxtLink
-                  to="/Authentication/SignIn"
-                  class="fw-semibold text-primary"
-                >
-                  Sign In
-                </NuxtLink>
+                Already have an account?
+                <NuxtLink to="/Authentication/SignIn" class="fw-semibold text-primary">Sign In</NuxtLink>
               </p>
             </form>
           </div>
@@ -73,33 +71,68 @@
 </template>
 
 <script>
-import { useUserStore } from '~/stores/user.js';
+import { useUserStore } from '~/stores/user';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'RegisterForm',
   data() {
     return {
-      firstName: '',
-      lastName: '',
       email: '',
+      password: '',
+      confirmPassword: '',
+      emailError: '',
+      passwordError: '',
+      confirmPasswordError: '',
     };
   },
   methods: {
-    validateForm() {
-      return this.firstName && this.lastName && this.email;
+    validateEmailInput() {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!this.email) {
+        this.emailError = 'Email is required.';
+      } else if (!emailRegex.test(this.email)) {
+        this.emailError = 'Invalid email format.';
+      } else {
+        this.emailError = '';
+      }
+    },
+    validatePassword() {
+      if (!this.password) {
+        this.passwordError = 'Password is required.';
+      } else if (this.password.length < 8) {
+        this.passwordError = 'Password must be at least 8 characters long.';
+      } else {
+        this.passwordError = '';
+      }
+    },
+    validateConfirmPassword() {
+      if (!this.confirmPassword) {
+        this.confirmPasswordError = 'Please confirm your password.';
+      } else if (this.confirmPassword !== this.password) {
+        this.confirmPasswordError = 'Passwords do not match.';
+      } else {
+        this.confirmPasswordError = '';
+      }
     },
     submitForm() {
-      if (this.validateForm()) {
+      this.validateEmailInput();
+      this.validatePassword();
+      this.validateConfirmPassword();
+
+      if (!this.emailError && !this.passwordError && !this.confirmPasswordError) {
+        console.log('Form Submitted');
+
         const userStore = useUserStore();
         userStore.setUser({
-          firstName: this.firstName,
-          lastName: this.lastName,
           email: this.email,
+          password: this.password,
         });
 
-        this.$router.push('/Authentication/form_wizard'); 
+        const router = useRouter();
+        router.push("/Authentication/form_wizard");
       } else {
-        alert('Please fill the form correctly.');
+        console.log('Form Validation Failed');
       }
     },
   },

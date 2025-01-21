@@ -15,42 +15,33 @@
             <div class="title">
               <h1 class="fw-semibold">Welcome back to AmStar!</h1>
             </div>
-            <div
-              class="with-socials d-flex align-items-center justify-content-between"
-            >
-            
-            </div>
-            <form>
+            <form @submit.prevent="submitLogin">
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Email Address
                 </v-label>
-                <v-text-field label="example@AmStar.com"></v-text-field>
+                <v-text-field v-model="email" label="example@AmStar.com" :error="emailError"></v-text-field>
+                <span v-if="emailError" class="text-danger">{{ emailError }}</span>
               </div>
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Password
                 </v-label>
-                <v-text-field label="Type password"></v-text-field>
+                <v-text-field v-model="password" label="Type password" type="password" :error="passwordError"></v-text-field>
+                <span v-if="passwordError" class="text-danger">{{ passwordError }}</span>
               </div>
               <div class="forgot-password">
-                <NuxtLink
-                  to="/Authentication/ForgotPassword" 
-                  class="text-primary fw-semibold"
-                >
+                <NuxtLink to="/Authentication/ForgotPassword" class="text-primary fw-semibold">
                   Forgot Password?
                 </NuxtLink>
               </div>
-              <button type="button">
+              <button type="submit">
                 <i class="material-symbols-outlined"> login </i>
                 Sign In
               </button>
               <p class="info">
-                Don’t have an account.
-                <NuxtLink
-                  to="/Authentication/SignUp"
-                  class="fw-semibold text-primary"
-                >
+                Don’t have an account?
+                <NuxtLink to="/Authentication/SignUp" class="fw-semibold text-primary">
                   Sign Up
                 </NuxtLink>
               </p>
@@ -63,9 +54,51 @@
 </template>
 
 <script>
+import { useUserStore } from '~/stores/user';
+
 export default {
-  name: "SignIn",
+  data() {
+    return {
+      email: '',
+      password: '',
+      emailError: false, // Ошибка будет булевым значением
+      passwordError: false, // Ошибка будет булевым значением
+    };
+  },
+  created() {
+    const userStore = useUserStore();
+    userStore.loadUser();  // Загружаем данные пользователя при создании компонента
+  },
+  methods: {
+    submitLogin() {
+      const userStore = useUserStore();
+      const router = this.$router; // Используем this.$router
+
+      console.log('Trying to login with email:', this.email);
+      console.log('Trying to login with password:', this.password);
+
+      // Загружаем данные пользователя из хранилища или из localStorage
+      const savedUser = userStore.email ? userStore : JSON.parse(localStorage.getItem('user'));
+
+      if (savedUser) {
+        console.log('Saved user:', savedUser);  // Логируем сохраненного пользователя
+        if (this.email === savedUser.email && this.password === savedUser.password) {
+          console.log('Login successful! Redirecting...');
+          router.push("/Authentication/form_wizard"); // Переход на другую страницу после успешного входа
+        } else {
+          console.log('Invalid credentials');  // Логируем, если данные неправильные
+          this.emailError = "Invalid email or password"; // Устанавливаем ошибку
+          this.passwordError = "Invalid email or password"; // Устанавливаем ошибку
+        }
+      } else {
+        console.log('No saved user data found');  // Логируем, если нет сохраненного пользователя
+        this.emailError = "No saved user data"; // Устанавливаем ошибку
+        this.passwordError = "No saved user data"; // Устанавливаем ошибку
+      }
+    },
+  },
 };
+
 </script>
 
 <style lang="scss" scoped>
