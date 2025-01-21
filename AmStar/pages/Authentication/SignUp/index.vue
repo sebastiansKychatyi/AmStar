@@ -71,73 +71,90 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useUserStore } from '~/stores/user';
 import { useRouter } from 'vue-router';
 
 export default {
   name: 'RegisterForm',
-  data() {
-    return {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      emailError: '',
-      passwordError: '',
-      confirmPasswordError: '',
-    };
-  },
-  methods: {
-    validateEmailInput() {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!this.email) {
-        this.emailError = 'Email is required.';
-      } else if (!emailRegex.test(this.email)) {
-        this.emailError = 'Invalid email format.';
-      } else {
-        this.emailError = '';
-      }
-    },
-    validatePassword() {
-      if (!this.password) {
-        this.passwordError = 'Password is required.';
-      } else if (this.password.length < 8) {
-        this.passwordError = 'Password must be at least 8 characters long.';
-      } else {
-        this.passwordError = '';
-      }
-    },
-    validateConfirmPassword() {
-      if (!this.confirmPassword) {
-        this.confirmPasswordError = 'Please confirm your password.';
-      } else if (this.confirmPassword !== this.password) {
-        this.confirmPasswordError = 'Passwords do not match.';
-      } else {
-        this.confirmPasswordError = '';
-      }
-    },
-    submitForm() {
-      this.validateEmailInput();
-      this.validatePassword();
-      this.validateConfirmPassword();
+  setup() {
+    const router = useRouter();
+    
+    const email = ref('');
+    const password = ref('');
+    const confirmPassword = ref('');
+    const emailError = ref('');
+    const passwordError = ref('');
+    const confirmPasswordError = ref('');
 
-      if (!this.emailError && !this.passwordError && !this.confirmPasswordError) {
+    const validateEmailInput = () => {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!email.value) {
+        emailError.value = 'Email is required.';
+      } else if (!emailRegex.test(email.value)) {
+        emailError.value = 'Invalid email format.';
+      } else {
+        emailError.value = '';
+      }
+    };
+
+    const validatePassword = () => {
+      if (!password.value) {
+        passwordError.value = 'Password is required.';
+      } else if (password.value.length < 8) {
+        passwordError.value = 'Password must be at least 8 characters long.';
+      } else {
+        passwordError.value = '';
+      }
+    };
+
+    const validateConfirmPassword = () => {
+      if (!confirmPassword.value) {
+        confirmPasswordError.value = 'Please confirm your password.';
+      } else if (confirmPassword.value !== password.value) {
+        confirmPasswordError.value = 'Passwords do not match.';
+      } else {
+        confirmPasswordError.value = '';
+      }
+    };
+
+    const submitForm = () => {
+      validateEmailInput();
+      validatePassword();
+      validateConfirmPassword();
+
+      if (!emailError.value && !passwordError.value && !confirmPasswordError.value) {
         console.log('Form Submitted');
 
         const userStore = useUserStore();
         userStore.setUser({
-          email: this.email,
-          password: this.password,
+          email: email.value,
+          password: password.value,
         });
 
-        const router = useRouter();
         router.push("/Authentication/form_wizard");
       } else {
         console.log('Form Validation Failed');
       }
-    },
-  },
+    };
+
+    // Возвращаем все переменные и методы из setup()
+    return {
+      email,
+      password,
+      confirmPassword,
+      emailError,
+      passwordError,
+      confirmPasswordError,
+      validateEmailInput,
+      validatePassword,
+      validateConfirmPassword,
+      submitForm
+    };
+  }
 };
 </script>
+
 
 <style lang="scss" scoped>
 .sign-up-area {

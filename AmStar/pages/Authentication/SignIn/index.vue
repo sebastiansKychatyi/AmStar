@@ -84,7 +84,7 @@ export default {
         console.log('Saved user:', savedUser);  // Логируем сохраненного пользователя
         if (this.email === savedUser.email && this.password === savedUser.password) {
           console.log('Login successful! Redirecting...');
-          router.push("/Authentication/form_wizard"); // Переход на другую страницу после успешного входа
+          router.push("/player-rating"); // Переход на другую страницу после успешного входа
         } else {
           console.log('Invalid credentials');  // Логируем, если данные неправильные
           this.emailError = "Invalid email or password"; // Устанавливаем ошибку
