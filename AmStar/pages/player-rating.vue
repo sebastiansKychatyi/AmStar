@@ -23,7 +23,7 @@ export default {
       user,
     };
   },
-};
+};//end
 </script>
 pages -> player-rating.vue
 <style scoped>
