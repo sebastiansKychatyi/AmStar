@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import "bootstrap"; 
 import "form-wizard-vue3/dist/form-wizard-vue3.css";
@@ -17,20 +17,20 @@ data() {
     };
 },
 methods: {
-    onChangeCurrentTab(index: number, oldIndex: number) {
+    onChangeCurrentTab(index , oldIndex ) {
         this.currentTabIndex = index;
     },
     onTabBeforeChange() {
         if (this.currentTabIndex === 0) {
         }
     },
-    wizardCompleted() {},
+    wizardCompleted() {console.log("privet")},
     onSubmit() {},
-    onFileChange(event: any) {
+    onFileChange(event ) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = (e: any) => {
+            reader.onload = (e) => {
             this.imageUrl = e.target.result;
         };
         reader.readAsDataURL(file);
@@ -55,6 +55,7 @@ methods: {
             @change="onChangeCurrentTab"
             @complete:wizard="wizardCompleted"
             @submit.prevent="onSubmit"
+            @on-complete="onComplete"
         >
         <!-- Step 1 -->
         <div class="step-content" v-if="currentTabIndex === 0">

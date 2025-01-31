@@ -22,9 +22,12 @@
         <li class="navbar-item">
           <NuxtLink to="/Authentication/form_wizard/RegisterTeam" class="link" exact-active-class="active">Create Team</NuxtLink>
         </li>
+        <li class="navbar-item">
+          <NuxtLink to="/TeamView" class="link" exact-active-class="active">Team view</NuxtLink>
+        </li>
       </ul>
     </nav>
-  </template>
+  </template> 
   
   <script>
   import { ref } from "vue";
