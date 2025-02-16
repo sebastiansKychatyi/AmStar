@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 order-2 order-lg-1">
           <div class="form-image">
-            <v-img src="/assets/images/sign-up.jpg" alt="sign-up-image" />
+            <v-img src="/assets/images/sign-up.png" alt="sign-up-image" />
           </div>
         </div>
         <div class="col-lg-6 col-md-12 order-1 order-lg-2">
@@ -21,7 +21,7 @@
                 <v-label class="d-block fw-medium text-black">Email Address</v-label>
                 <v-text-field
                   v-model="email"
-                  label="example@AmStar.com"
+                  
                   :error="emailError"
                   @blur="validateEmailInput"
                 ></v-text-field>
@@ -31,7 +31,7 @@
                 <v-label class="d-block fw-medium text-black">Password</v-label>
                 <v-text-field
                   v-model="password"
-                  label="Type password"
+                  
                   type="password"
                   :error="passwordError"
                   @blur="validatePassword"
@@ -42,7 +42,7 @@
                 <v-label class="d-block fw-medium text-black">Confirm password</v-label>
                 <v-text-field
                   v-model="confirmPassword"
-                  label="Type password"
+                  
                   type="password"
                   :error="confirmPasswordError"
                   @blur="validateConfirmPassword"

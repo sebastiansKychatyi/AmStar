@@ -21,8 +21,8 @@
 import { defineComponent, ref, computed, onMounted, watchEffect } from "vue";
 import { useRoute } from "#app";
 import stateStore from "~/utils/store";
-import Navbar from "~/components/Navbar.vue";
-import Footer from "~/components/Footer.vue";
+import Navbar from "~/components/navbar.vue";
+import Footer from "~/components/footer.vue";
 
 export default defineComponent({
   components: {

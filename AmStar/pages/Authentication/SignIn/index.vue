@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 order-2 order-lg-1">
           <div class="form-image">
-            <v-img src="~/assets/images/sign-in.jpg" alt="sign-in-image" />
+            <v-img src="~/assets/images/sign-in.png" alt="sign-in-image" />
           </div>
         </div>
         <div class="col-lg-6 col-md-12 order-1 order-lg-2">
@@ -20,14 +20,14 @@
                 <v-label class="d-block fw-medium text-black">
                   Email Address
                 </v-label>
-                <v-text-field v-model="email" label="example@AmStar.com" :error="emailError"></v-text-field>
+                <v-text-field v-model="email" :error="emailError"></v-text-field>
                 <span v-if="emailError" class="text-danger">{{ emailError }}</span>
               </div>
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Password
                 </v-label>
-                <v-text-field v-model="password" label="Type password" type="password" :error="passwordError"></v-text-field>
+                <v-text-field v-model="password" type="password" :error="passwordError"></v-text-field>
                 <span v-if="passwordError" class="text-danger">{{ passwordError }}</span>
               </div>
               <div class="forgot-password">

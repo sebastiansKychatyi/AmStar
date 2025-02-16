@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { useUserStore } from '~/stores/user.JS';
+import { useUserStore } from '~/stores/user.js';
 
 export default {
     name: 'PlayerRatingTable',
