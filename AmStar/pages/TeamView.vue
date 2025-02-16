@@ -39,7 +39,19 @@ export default {
         :errorMessage="bioError"
       />
     </div>
+    <div class="versus">
+      <div class="versus">
+        <v-img class="first_team"src="~/assets/images/AmStar-Logos2.svg" alt="logo" />
+      </div>
+      <div>
+          <h1> 0 : 0 </h1>
+      </div>
+      <div class="versus">
+        <v-img class="second_team" src="~/assets/images/AmStar-Logos2.svg" alt="logo" />
+      </div>
+    </div>
   </div>
+
 </template>
 
 <style scoped>
