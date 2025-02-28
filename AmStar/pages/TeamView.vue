@@ -8,12 +8,12 @@ const teamStore = useTeamStore();
 // Управляет отображением дополнительной информации при клике на "About Team"
 const showAboutTeam = ref(false);
 const toggleAboutTeam = () => {
-  showAboutTeam.value = !showAboutTeam.value;
+    showAboutTeam.value = !showAboutTeam.value;
 };
 
 const showMoreInformation = ref(false);
 const toggleMoreInformation = () => {
-  showMoreInformation.value = !showMoreInformation.value;
+    showMoreInformation.value = !showMoreInformation.value;
 };
 
 const showPlayers = ref(false);

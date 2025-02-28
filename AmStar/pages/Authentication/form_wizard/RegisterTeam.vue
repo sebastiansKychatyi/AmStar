@@ -79,7 +79,7 @@ export default {
       <div class="col-lg-6">
         <Wizard
           :custom-tabs="[
-            { title: 'Registration Team' },
+            { title: 'Registration' },
             { title: 'Details' },
             { title: 'Confirmation' }
           ]"
@@ -109,7 +109,6 @@ export default {
               <input class="form-control" type="text" placeholder="Village Kamyanitsa, Uzanska 107"
                 v-model="street_team" required />
             </div>
-            <p>Team Logo</p>
             <div class="image-upload">
               <input id="file-input" type="file" @change="onFileChange" accept="image/*" />
               <!-- Текстовая инструкция для загрузки файла -->
@@ -156,6 +155,7 @@ export default {
     </div>
   </div>
 </template>
+
 
 <style scoped>
 /* Основные отступы для контейнера */

@@ -25,6 +25,13 @@
         <li class="navbar-item">
           <NuxtLink to="/TeamView" class="link" exact-active-class="active">Team view</NuxtLink>
         </li>
+        <li class="navbar-item">
+          <NuxtLink to="/playerView" class="link" exact-active-class="active">Player view</NuxtLink>
+          
+        </li>
+        <li class="navbar-item">
+          <NuxtLink to="/playerViewExampl" class="link" exact-active-class="active">player View Exampl</NuxtLink>
+        </li>
       </ul>
     </nav>
   </template> 
