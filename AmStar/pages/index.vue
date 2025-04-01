@@ -1,8 +1,17 @@
 <template>
-    <div>
-        <h1>Hi football</h1>
-        <nuxt-link to="/Authentication/SignUp">SingUp? </nuxt-link>
-        <nuxt-link to="/Authentication/SignIn">SignIn? </nuxt-link>
-        <nuxt-link to="/Authentication/form_wizard">tutu </nuxt-link>
+    <Navbar />
+    <div id="app">
+        <PlayerRatingTable />
     </div>
-</template>  
+    <Footer />
+</template>
+
+<script>
+import PlayerRatingTable from '@/components/PlayerRatingTable.vue';
+import navbar from '~/components/navbar.vue';
+export default {
+    components: {
+        PlayerRatingTable,
+    },
+};
+</script>

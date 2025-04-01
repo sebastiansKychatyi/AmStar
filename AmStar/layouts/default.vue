@@ -1,33 +1,18 @@
 <template>
   <div>
-    <LayoutPreloader v-if="isLoading" />
-    <LayoutLeftSidebar v-if="shouldShowSidebar" />
-    <div
-      :class="[
-        'main-content d-flex flex-column',
-        { active: stateStoreInstance.open },
-        { 'padding-minus': shouldShowPaddingLeftZero },
-      ]"
-    >
-      <!-- Шапка и навигация -->
-      <header v-if="shouldShowHeader">
-        <h1>AmStar</h1>
-        <nav>
-          <NuxtLink to="/">Home</NuxtLink> |
-          <NuxtLink to="/Authentication/SignIn">Sign in</NuxtLink> |
-          <NuxtLink to="/Authentication/SignUp">Sign up</NuxtLink>
-        </nav>
-      </header>
+    
+    <div v-if="shouldShowHeader">
+      <Navbar />
+    </div>
 
-      <!-- Основной контент -->
-      <div :class="containerClass">
-        <NuxtPage />
-      </div>
-      <div class="flex-grow-1"></div>
+    
+    <div :class="containerClass">
+      <NuxtPage />
+    </div>
 
-      <!-- Подвал -->
-      <LayoutMainFooter v-if="shouldShowFooter" />
-      <LayoutSettingsSidebar />
+    
+    <div v-if="shouldShowFooter">
+      <Footer />
     </div>
   </div>
 </template>
@@ -36,13 +21,20 @@
 import { defineComponent, ref, computed, onMounted, watchEffect } from "vue";
 import { useRoute } from "#app";
 import stateStore from "~/utils/store";
+import Navbar from "~/components/navbar.vue";
+import Footer from "~/components/footer.vue";
 
 export default defineComponent({
+  components: {
+    Navbar,
+    Footer,
+  },
   setup() {
     const isLoading = ref(true);
     const stateStoreInstance = stateStore;
     const route = useRoute();
 
+    // Маршруты, где не показываются шапка и подвал
     const hiddenRoutes = [
       "/",
       "/features",
@@ -60,21 +52,11 @@ export default defineComponent({
       "/authentication/lock-screen",
     ];
 
-    const shouldShowSidebar = computed(() => !hiddenRoutes.includes(route.path));
     const shouldShowHeader = computed(() => !hiddenRoutes.includes(route.path));
     const shouldShowFooter = computed(() => !hiddenRoutes.includes(route.path));
-    const shouldShowPaddingLeftZero = computed(() =>
-      hiddenRoutes.includes(route.path)
-    );
 
     const containerClass = computed(() => ({
-      "main-content-container": ![
-        "/",
-        "/features",
-        "/team",
-        "/faq",
-        "/contact",
-      ].includes(route.path),
+      "main-content-container": !hiddenRoutes.includes(route.path),
     }));
 
     onMounted(() => {
@@ -96,14 +78,11 @@ export default defineComponent({
     return {
       isLoading,
       stateStoreInstance,
-      shouldShowSidebar,
       shouldShowHeader,
       shouldShowFooter,
-      shouldShowPaddingLeftZero,
       containerClass,
       route,
     };
   },
 });
 </script>
-

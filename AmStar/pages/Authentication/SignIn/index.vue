@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6 col-md-12 order-2 order-lg-1">
           <div class="form-image">
-            <v-img src="~/assets/images/sign-in.jpg" alt="sign-in-image" />
+            <v-img src="~/assets/images/sign-in.png" alt="sign-in-image" />
           </div>
         </div>
         <div class="col-lg-6 col-md-12 order-1 order-lg-2">
@@ -15,42 +15,33 @@
             <div class="title">
               <h1 class="fw-semibold">Welcome back to AmStar!</h1>
             </div>
-            <div
-              class="with-socials d-flex align-items-center justify-content-between"
-            >
-            
-            </div>
-            <form>
+            <form @submit.prevent="submitLogin">
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Email Address
                 </v-label>
-                <v-text-field label="example@AmStar.com"></v-text-field>
+                <v-text-field v-model="email" :error="emailError"></v-text-field>
+                <span v-if="emailError" class="text-danger">{{ emailError }}</span>
               </div>
               <div class="trezo-form-group">
                 <v-label class="d-block fw-medium text-black">
                   Password
                 </v-label>
-                <v-text-field label="Type password"></v-text-field>
+                <v-text-field v-model="password" type="password" :error="passwordError"></v-text-field>
+                <span v-if="passwordError" class="text-danger">{{ passwordError }}</span>
               </div>
               <div class="forgot-password">
-                <NuxtLink
-                  to="/Authentication/ForgotPassword" 
-                  class="text-primary fw-semibold"
-                >
+                <NuxtLink to="/Authentication/ForgotPassword" class="text-primary fw-semibold">
                   Forgot Password?
                 </NuxtLink>
               </div>
-              <button type="button">
+              <button type="submit">
                 <i class="material-symbols-outlined"> login </i>
                 Sign In
               </button>
               <p class="info">
-                Don’t have an account.
-                <NuxtLink
-                  to="/Authentication/SignUp"
-                  class="fw-semibold text-primary"
-                >
+                Don’t have an account?
+                <NuxtLink to="/Authentication/SignUp" class="fw-semibold text-primary">
                   Sign Up
                 </NuxtLink>
               </p>
@@ -63,9 +54,51 @@
 </template>
 
 <script>
+import { useUserStore } from '~/stores/user';
+
 export default {
-  name: "SignIn",
+  data() {
+    return {
+      email: '',
+      password: '',
+      emailError: false, // Ошибка будет булевым значением
+      passwordError: false, // Ошибка будет булевым значением
+    };
+  },
+  created() {
+    const userStore = useUserStore();
+    userStore.loadUser();  // Загружаем данные пользователя при создании компонента
+  },
+  methods: {
+    submitLogin() {
+      const userStore = useUserStore();
+      const router = this.$router; // Используем this.$router
+
+      console.log('Trying to login with email:', this.email);
+      console.log('Trying to login with password:', this.password);
+
+      // Загружаем данные пользователя из хранилища или из localStorage
+      const savedUser = userStore.email ? userStore : JSON.parse(localStorage.getItem('user'));
+
+      if (savedUser) {
+        console.log('Saved user:', savedUser);  // Логируем сохраненного пользователя
+        if (this.email === savedUser.email && this.password === savedUser.password) {
+          console.log('Login successful! Redirecting...');
+          router.push("/player-rating"); // Переход на другую страницу после успешного входа
+        } else {
+          console.log('Invalid credentials');  // Логируем, если данные неправильные
+          this.emailError = "Invalid email or password"; // Устанавливаем ошибку
+          this.passwordError = "Invalid email or password"; // Устанавливаем ошибку
+        }
+      } else {
+        console.log('No saved user data found');  // Логируем, если нет сохраненного пользователя
+        this.emailError = "No saved user data"; // Устанавливаем ошибку
+        this.passwordError = "No saved user data"; // Устанавливаем ошибку
+      }
+    },
+  },
 };
+
 </script>
 
 <style lang="scss" scoped>
@@ -166,7 +199,7 @@ export default {
           padding: 12px 25px;
           border-radius: 7px;
           color: var(--whiteColor);
-          background-color: var(--primaryColor);
+          background-color: #333;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -193,6 +226,14 @@ export default {
       }
     }
   }
+}
+.fw-medium{
+  color: #333;
+  text-decoration: none;
+}
+.fw-semibold{
+  color: #333 !important;
+  text-decoration: none;
 }
 
 /* Max width 767px */
@@ -419,4 +460,75 @@ export default {
     }
   }
 }
+/* Max width 767px */
+@media only screen and (max-width: 767px) {
+  .sign-in-area {
+    padding: {
+      top: 60px;
+      bottom: 60px;
+    }
+    .trezo-form {
+      max-width: 100%;
+
+      .form-image {
+        display: none; /* Скрываем картинку на мобильных устройствах */
+      }
+
+      .form-content {
+        padding-left: 0;
+
+        .title {
+          margin: {
+            top: 17px;
+            bottom: 15px;
+          }
+          h1 {
+            font-size: 22px;
+          }
+          p {
+            font-size: 13px;
+          }
+        }
+
+        .with-socials {
+          margin-bottom: 20px;
+
+          div {
+            margin: {
+              left: 5px;
+              right: 5px;
+            }
+          }
+
+          button {
+            padding: 8px 15px;
+          }
+        }
+
+        form {
+          .trezo-form-group {
+            .v-label {
+              margin-bottom: 10px;
+            }
+          }
+
+          button {
+            padding: 12px 25px;
+            margin-top: 17px;
+            font-size: 13px;
+            i {
+              font-size: 20px;
+            }
+          }
+
+          .info {
+            margin-top: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
 </style>
