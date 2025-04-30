@@ -1,4 +1,3 @@
-
 import { useUserStore } from '~/stores/user';
 
 export default {
